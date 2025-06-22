@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":"vite",
-    "compilecss":"npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch"
+    "dev": "vite",
+    "compilecss": "npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch"
   },
   "repository": {
     "type": "git",
@@ -20,8 +20,6 @@
   },
   "homepage": "https://github.com/Rishi-Raj-Anand/PasswordGenerator#readme",
   "dependencies": {
-    "@tailwindcss/cli": "^4.1.10",
-    "tailwindcss": "^4.1.10",
     "vite": "^6.3.5"
   }
 }

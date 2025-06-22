@@ -32,11 +32,14 @@ handleSlider();
 allCheckbox.forEach((checkbox)=>{
     checkbox.checked=false;
 })
-indicator.style.cssText="background:#686664;"
-
+setIndicator("#686664")
+console.log(inputSlider);
 function handleSlider(){
     lengthDisplay.textContent=passwordLength;
     inputSlider.value=passwordLength;
+    const min = inputSlider.min;
+    const max = inputSlider.max;
+    inputSlider.style.backgroundSize = ( (passwordLength - min)*100/(max - min)) + "% 100%"
 }
 
 // sliding event
@@ -116,7 +119,8 @@ function generatePassword(){
 
     if(countC===0){
         console.log("No checkbox selected");
-        alert("⚠️ Please,Select atleast one checkox");
+        main.classList.add("disable");
+        popup.classList.remove("disable-popup");
         return;
     } 
 
@@ -187,8 +191,9 @@ async function copyPassword() {
         if(password.length>0){
             await navigator.clipboard.writeText(password);
             copyMsg.textContent="Copied";
+            copyMsg.classList.add("active")
             setTimeout(() => {
-                copyMsg.textContent="";
+                copyMsg.classList.remove("active")
             }, 3000);
         }else{
             throw Error("Invalid Password")
@@ -196,9 +201,12 @@ async function copyPassword() {
         }
         
     }catch(e){
-        copyMsg.textContent="retry";
+        copyMsg.classList.add("active")
+        copyMsg.textContent="Retry";
         setTimeout(() => {
-            copyMsg.textContent="";
+            // copyMsg.textContent="";
+            copyMsg.classList.remove("active")
+            
         }, 3000);
     }
    
@@ -219,18 +227,33 @@ function passwordStrength(pass){
 
     if(pass.length<6 || countC==1){
         console.log("weak password");
-        indicator.style.cssText="background:red;"
+        setIndicator("#f00")
     }else if(pass.length>=10 && countC==4){
         console.log("Very Strong Password");
-        indicator.style.cssText="background:#097002;"
+        setIndicator("#62ec62")
     }else if(pass.length>=8 && countC>=3){
         console.log("Strong Password");
-        indicator.style.cssText="background:#c6bd12;"
+        setIndicator("#fffb00")
     }else if(pass.length>=6 && countC>=2){
         console.log("Moderate Password");
-        indicator.style.cssText="background:#cd5c0c;"
+        setIndicator("#ff7300")
     }
 
 
 }
+
+function setIndicator(str) {
+    indicator.style.cssText = `background: ${str}; box-shadow: 0px 0px 20px 4px ${str};`;
+}
+const main=document.querySelector(".main");
+const popupBtn=document.querySelector("[popupbtn]");
+const popup=document.querySelector(".noCheck-container");
+
+popupBtn.addEventListener('click',()=>{
+    main.classList.remove("disable");
+    popup.classList.add("disable-popup");
+    
+});
+
+
 
